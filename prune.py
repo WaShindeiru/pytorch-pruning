@@ -4,6 +4,7 @@ from torchvision import models
 import cv2
 import sys
 import numpy as np
+import time
  
 def replace_layers(model, i, indexes, layers):
     if i in indexes:
@@ -132,5 +133,5 @@ if __name__ == '__main__':
     model.train()
 
     t0 = time.time()
-    model = prune_conv_layer(model, 28, 10)
+    model = prune_vgg16_conv_layer(model, 28, 10)
     print("The prunning took", time.time() - t0)
