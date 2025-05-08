@@ -254,8 +254,8 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train", dest="train", action="store_true")
     parser.add_argument("--prune", dest="prune", action="store_true")
-    parser.add_argument("--train_path", type = str, default = "train")
-    parser.add_argument("--test_path", type = str, default = "test")
+    parser.add_argument("--train_path", type = str, default = None)
+    parser.add_argument("--test_path", type = str, default = None)
     parser.add_argument('--use-cuda', action='store_true', default=False, help='Use NVIDIA GPU acceleration')    
     parser.set_defaults(train=False)
     parser.set_defaults(prune=False)
@@ -283,8 +283,18 @@ if __name__ == '__main__':
     # if args.use_cuda:
     #     model = model.cuda()
 
-    train_path = "data/kagglecatsanddogs_5340/Train"
-    test_path = "data/kagglecatsanddogs_5340/Test"
+    train_path = None
+    if args.train_path is None:
+        train_path = "data/kagglecatsanddogs_5340/Train"
+    else:
+        train_path = args.train_path
+
+    test_path = None
+    if args.test_path is None:
+        test_path = "data/kagglecatsanddogs_5340/Test"
+    else:
+        test_path = args.test_path
+
 
     fine_tuner = PrunningFineTuner_VGG16(train_path, test_path, model)
 
