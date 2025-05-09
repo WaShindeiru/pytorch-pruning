@@ -34,7 +34,7 @@ class ModifiedVGG16Model(torch.nn.Module):
             nn.Dropout(),
             nn.Linear(4096, 4096),
             nn.ReLU(inplace=True),
-            nn.Linear(4096, 2))
+            nn.Linear(4096, 10))
 
     def forward(self, x):
         x = self.features(x)
@@ -309,7 +309,7 @@ class PrunningFineTuner_VGG16:
         self.train(optimizer, epoches=15)
 
         current_time = datetime.now().strftime("%d_%B_%H:%M")
-        torch.save(model, f"model_{current_time}")
+        torch.save(model, f"model_vg16_prunned_{current_time}")
         # torch.save(model.state_dict(), "model_prunned")
 
 def get_args():
@@ -318,7 +318,8 @@ def get_args():
     parser.add_argument("--prune", dest="prune", action="store_true")
     parser.add_argument("--train_path", type = str, default = None)
     parser.add_argument("--test_path", type = str, default = None)
-    parser.add_argument('--use-cuda', action='store_true', default=False, help='Use NVIDIA GPU acceleration')    
+    parser.add_argument('--use-cuda', action='store_true', default=False, help='Use NVIDIA GPU acceleration')
+    parser.add_argument("--model-path", type = str, default = None)
     parser.set_defaults(train=False)
     parser.set_defaults(prune=False)
     args = parser.parse_args()
@@ -335,10 +336,15 @@ if __name__ == '__main__':
         assert torch.cuda.is_available()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    model_name = args.model_path
+    if model_name is None:
+        model_name = "model"
+
     if args.train:
-        model = CustomVGG19Model()
+        model = ModifiedVGG16Model()
+        # model = CustomVGG19Model()
     elif args.prune:
-        model = torch.load("model", map_location=device, weights_only=False)
+        model = torch.load(model_name, map_location=device, weights_only=False)
 
     model = model.to(device)
 
@@ -363,7 +369,7 @@ if __name__ == '__main__':
     if args.train:
         fine_tuner.train(epoches=10)
         current_time = datetime.now().strftime("%d_%B_%H:%M")
-        torch.save(model.state_dict(), f"model_{current_time}.pth")
+        torch.save(model.state_dict(), f"model_vg16_{current_time}.pth")
         # torch.save(model, "model")
 
     elif args.prune:
