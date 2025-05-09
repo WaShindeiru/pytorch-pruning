@@ -24,9 +24,9 @@ def prune_vgg16_conv_layer(model, layer_index, filter_index, use_cuda=False):
         offset = offset + 1
     
     new_conv = \
-        torch.nn.Conv2d(in_channels = conv.in_channels, \
+        torch.nn.Conv2d(in_channels = conv.in_channels,
             out_channels = conv.out_channels - 1,
-            kernel_size = conv.kernel_size, \
+            kernel_size = conv.kernel_size,
             stride = conv.stride,
             padding = conv.padding,
             dilation = conv.dilation,
@@ -96,20 +96,17 @@ def prune_vgg16_conv_layer(model, layer_index, filter_index, use_cuda=False):
             layer_index = layer_index  + 1
 
         if old_linear_layer is None:
-            raise BaseException("No linear laye found in classifier")
+            raise BaseException("No linear layer found in classifier")
         params_per_input_channel = old_linear_layer.in_features // conv.out_channels
 
-        new_linear_layer = \
-            torch.nn.Linear(old_linear_layer.in_features - params_per_input_channel, 
+        new_linear_layer = torch.nn.Linear(old_linear_layer.in_features - params_per_input_channel,
                 old_linear_layer.out_features)
         
         old_weights = old_linear_layer.weight.data.cpu().numpy()
         new_weights = new_linear_layer.weight.data.cpu().numpy()        
 
-        new_weights[:, : filter_index * params_per_input_channel] = \
-            old_weights[:, : filter_index * params_per_input_channel]
-        new_weights[:, filter_index * params_per_input_channel :] = \
-            old_weights[:, (filter_index + 1) * params_per_input_channel :]
+        new_weights[:, : filter_index * params_per_input_channel] = old_weights[:, : filter_index * params_per_input_channel]
+        new_weights[:, filter_index * params_per_input_channel :] = old_weights[:, (filter_index + 1) * params_per_input_channel :]
         
         new_linear_layer.bias.data = old_linear_layer.bias.data
 

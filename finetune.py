@@ -13,6 +13,7 @@ from prune import *
 import argparse
 from operator import itemgetter
 from heapq import nsmallest
+from datetime import datetime
 import time
 from tqdm import tqdm
 
@@ -40,6 +41,62 @@ class ModifiedVGG16Model(torch.nn.Module):
         x = torch.flatten(x, 1)
         x = self.classifier(x)
         return x
+
+
+class CustomVGG19Model(torch.nn.Module):
+    def __init__(self):
+        super(CustomVGG19Model, self).__init__()
+
+        model = models.vgg19(pretrained=True)
+        self.features = model.features
+
+        for param in self.features.parameters():
+            param.requires_grad = False
+
+        self.classifier = nn.Sequential(
+            nn.Dropout(),
+            nn.Linear(25088, 4096),
+            nn.ReLU(inplace=True),
+            nn.Dropout(),
+            nn.Linear(4096, 4096),
+            nn.ReLU(inplace=True),
+            nn.Linear(4096, 10))
+
+    def forward(self, x):
+        x = self.features(x)
+        x = torch.flatten(x, 1)
+        x = self.classifier(x)
+        return x
+
+
+class CustomResNet50(torch.nn.Module):
+    def __init__(self):
+        super(CustomResNet50, self).__init__()
+
+        model = models.resnet50(pretrained=True)
+        model = models.googlenet(pretrained=True)
+        self.features = model.fc.in_features
+        # self.features = model.features
+
+        for param in model.parameters():
+            param.requires_grad = False
+
+        # replace fully connected layer
+        self.fc = nn.Sequential(
+            nn.Dropout(),
+            nn.Linear(25088, 4096),
+            nn.ReLU(inplace=True),
+            nn.Dropout(),
+            nn.Linear(4096, 4096),
+            nn.ReLU(inplace=True),
+            nn.Linear(4096, 2))
+
+    def forward(self, x):
+        x = self.features(x)
+        x = torch.flatten(x, 1)
+        x = self.classifier(x)
+        return x
+
 
 class FilterPrunner(nn.Module):
     def __init__(self, model):
@@ -78,9 +135,7 @@ class FilterPrunner(nn.Module):
 
 
         if activation_index not in self.filter_ranks:
-            self.filter_ranks[activation_index] = \
-                torch.FloatTensor(activation.size(1)).zero_()
-
+            self.filter_ranks[activation_index] = torch.FloatTensor(activation.size(1)).zero_()
             self.filter_ranks[activation_index] = self.filter_ranks[activation_index].to(device)
 
         self.filter_ranks[activation_index] += taylor
@@ -137,14 +192,19 @@ class PrunningFineTuner_VGG16:
     def test(self):
         # return
         self.model.eval()
+        output = None
         correct = 0
         total = 0
 
         for i, (batch, label) in enumerate(self.test_data_loader):
             batch = batch.to(device)
-            output = model(Variable(batch))
-            pred = output.data.max(1)[1]
-            correct += pred.cpu().eq(label).sum()
+            label = label.to(device)
+            with torch.no_grad():
+                output = model(Variable(batch))
+            # pred = output.data.max(1)[1]
+            pred = output.argmax(1)
+            correct += (pred == label).sum().item()
+            # correct += pred.cpu().eq(label).sum()
             total += label.size(0)
         
         print("Accuracy :", float(correct) / total)
@@ -163,7 +223,6 @@ class PrunningFineTuner_VGG16:
         
 
     def train_batch(self, optimizer, batch, label, rank_filters):
-
         batch, label = batch.to(device), label.to(device)
 
         optimizer.zero_grad()
@@ -248,7 +307,10 @@ class PrunningFineTuner_VGG16:
 
         print("Finished. Going to fine tune the model a bit more")
         self.train(optimizer, epoches=15)
-        torch.save(model.state_dict(), "model_prunned")
+
+        current_time = datetime.now().strftime("%d_%B_%H:%M")
+        torch.save(model, f"model_{current_time}")
+        # torch.save(model.state_dict(), "model_prunned")
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -274,7 +336,7 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if args.train:
-        model = ModifiedVGG16Model()
+        model = CustomVGG19Model()
     elif args.prune:
         model = torch.load("model", map_location=device, weights_only=False)
 
@@ -285,13 +347,13 @@ if __name__ == '__main__':
 
     train_path = None
     if args.train_path is None:
-        train_path = "data/kagglecatsanddogs_5340/Train"
+        train_path = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/animals10/train"
     else:
         train_path = args.train_path
 
     test_path = None
     if args.test_path is None:
-        test_path = "data/kagglecatsanddogs_5340/Test"
+        test_path = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/animals10/test"
     else:
         test_path = args.test_path
 
@@ -300,7 +362,9 @@ if __name__ == '__main__':
 
     if args.train:
         fine_tuner.train(epoches=10)
-        torch.save(model, "model")
+        current_time = datetime.now().strftime("%d_%B_%H:%M")
+        torch.save(model.state_dict(), f"model_{current_time}.pth")
+        # torch.save(model, "model")
 
     elif args.prune:
         fine_tuner.prune()

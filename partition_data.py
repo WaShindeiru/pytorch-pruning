@@ -53,8 +53,8 @@ def split_images(source_dir, train_dir, test_dir, test_ratio=0.2, max_train=None
 # Example usage
 if __name__ == "__main__":
     # Set your directory paths here
-    source_directory = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/kagglecatsanddogs_5340/PetImages/Cat"
-    train_directory = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/kagglecatsanddogs_5340/Train/cats"
-    test_directory = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/kagglecatsanddogs_5340/Test/cats"
+    source_directory = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/raw-img/scoiattolo"
+    train_directory = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/animals10/train/squirrel"
+    test_directory = "/home/washindeiru/studia/sem_8/ssn/sem/pytorch-pruning/data/animals10/test/squirrel"
 
-    split_images(source_directory, train_directory, test_directory, 0.15, 1200, 400)
+    split_images(source_directory, train_directory, test_directory, 0.2, 1100, 289)
