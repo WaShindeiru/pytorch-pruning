@@ -21,7 +21,7 @@ class ModifiedVGG16Model(torch.nn.Module):
     def __init__(self):
         super(ModifiedVGG16Model, self).__init__()
 
-        model = models.vgg16(pretrained=True)
+        model = models.vgg16(weights=models.VGG16_Weights.DEFAULT)
         self.features = model.features
 
         for param in self.features.parameters():
@@ -344,7 +344,9 @@ if __name__ == '__main__':
         model = ModifiedVGG16Model()
         # model = CustomVGG19Model()
     elif args.prune:
-        model = torch.load(model_name, map_location=device, weights_only=False)
+        model = ModifiedVGG16Model()
+        model.load_state_dict(torch.load(model_name, map_location=device))
+        # model = torch.load(model_name, map_location=device, weights_only=False)
 
     model = model.to(device)
 

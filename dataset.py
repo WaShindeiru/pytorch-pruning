@@ -39,6 +39,6 @@ def test_loader(path, batch_size=32, num_workers=4, pin_memory=True):
                                  normalize,
                              ])),
         batch_size=batch_size,
-        shuffle=False,
+        shuffle=True,
         num_workers=num_workers,
         pin_memory=pin_memory)

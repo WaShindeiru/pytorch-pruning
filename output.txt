@@ -1,0 +1,169 @@
+Accuracy : 0.9521337946943483
+Number of prunning iterations to reduce 67% filters 5
+Ranking filters.. 
+Layers that will be prunned {21: 57, 17: 61, 28: 157, 26: 68, 14: 16, 19: 49, 12: 12, 24: 56, 5: 8, 10: 20, 7: 3, 2: 2, 0: 3}
+Prunning filters.. 
+Filters prunned 87.87878787878788%
+Accuracy : 0.8910034602076125
+Fine tuning to recover from prunning iteration.
+Epoch:  0
+Accuracy : 0.9446366782006921
+Epoch:  1
+Accuracy : 0.9440599769319492
+Epoch:  2
+Accuracy : 0.9469434832756632
+Epoch:  3
+Accuracy : 0.9359861591695502
+Epoch:  4
+Accuracy : 0.9532871972318339
+Epoch:  5
+Accuracy : 0.9602076124567474
+Epoch:  6
+Accuracy : 0.9538638985005767
+Epoch:  7
+Accuracy : 0.961361014994233
+Epoch:  8
+Accuracy : 0.9602076124567474
+Epoch:  9
+Accuracy : 0.9561707035755479
+Finished fine tuning.
+Ranking filters.. 
+Layers that will be prunned {28: 113, 12: 23, 21: 61, 26: 96, 17: 48, 19: 50, 24: 73, 0: 4, 14: 13, 10: 15, 7: 12, 5: 3, 2: 1}
+Prunning filters.. 
+Filters prunned 75.75757575757575%
+Accuracy : 0.7583621683967705
+Fine tuning to recover from prunning iteration.
+Epoch:  0
+Accuracy : 0.9486735870818915
+Epoch:  1
+Accuracy : 0.9440599769319492
+Epoch:  2
+Accuracy : 0.9463667820069204
+Epoch:  3
+Accuracy : 0.9457900807381776
+Epoch:  4
+Accuracy : 0.9452133794694348
+Epoch:  5
+Accuracy : 0.9550173010380623
+Epoch:  6
+Accuracy : 0.9579008073817762
+Epoch:  7
+Accuracy : 0.9342560553633218
+Epoch:  8
+Accuracy : 0.9544405997693195
+Epoch:  9
+Accuracy : 0.9619377162629758
+Finished fine tuning.
+Ranking filters.. 
+Layers that will be prunned {17: 53, 24: 77, 12: 20, 21: 81, 19: 64, 26: 79, 28: 55, 14: 31, 10: 22, 5: 11, 7: 7, 2: 6, 0: 6}
+Prunning filters.. 
+Filters prunned 63.63636363636363%
+Accuracy : 0.7439446366782007
+Fine tuning to recover from prunning iteration.
+Epoch:  0
+Accuracy : 0.9400230680507498
+Epoch:  1
+Accuracy : 0.9463667820069204
+Epoch:  2
+Accuracy : 0.9515570934256056
+Epoch:  3
+Accuracy : 0.9515570934256056
+Epoch:  4
+Accuracy : 0.9498269896193772
+Epoch:  5
+Accuracy : 0.9440599769319492
+Epoch:  6
+Accuracy : 0.9469434832756632
+Epoch:  7
+Accuracy : 0.9527104959630911
+Epoch:  8
+Accuracy : 0.9440599769319492
+Epoch:  9
+Accuracy : 0.9561707035755479
+Finished fine tuning.
+Ranking filters.. 
+Layers that will be prunned {7: 10, 17: 77, 19: 65, 10: 29, 2: 6, 28: 47, 26: 65, 21: 69, 24: 72, 12: 27, 14: 24, 0: 5, 5: 16}
+Prunning filters.. 
+Filters prunned 51.515151515151516%
+Accuracy : 0.5363321799307958
+Fine tuning to recover from prunning iteration.
+Epoch:  0
+Accuracy : 0.9232987312572087
+Epoch:  1
+Accuracy : 0.9048442906574394
+Epoch:  2
+Accuracy : 0.9175317185697809
+Epoch:  3
+Accuracy : 0.9319492502883506
+Epoch:  4
+Accuracy : 0.9244521337946944
+Epoch:  5
+Accuracy : 0.9377162629757786
+Epoch:  6
+Accuracy : 0.9446366782006921
+Epoch:  7
+Accuracy : 0.9400230680507498
+Epoch:  8
+Accuracy : 0.9446366782006921
+Epoch:  9
+Accuracy : 0.9452133794694348
+Finished fine tuning.
+Ranking filters.. 
+Layers that will be prunned {7: 21, 14: 39, 24: 42, 2: 6, 19: 80, 17: 66, 12: 39, 5: 14, 21: 56, 26: 68, 0: 4, 10: 35, 28: 42}
+Prunning filters.. 
+Filters prunned 39.39393939393939%
+Accuracy : 0.3460207612456747
+Fine tuning to recover from prunning iteration.
+Epoch:  0
+Accuracy : 0.8760092272202998
+Epoch:  1
+Accuracy : 0.9083044982698962
+Epoch:  2
+Accuracy : 0.9140715109573241
+Epoch:  3
+Accuracy : 0.9008073817762399
+Epoch:  4
+Accuracy : 0.9106113033448674
+Epoch:  5
+Accuracy : 0.919838523644752
+Epoch:  6
+Accuracy : 0.9342560553633218
+Epoch:  7
+Accuracy : 0.9348327566320646
+Epoch:  8
+Accuracy : 0.9256055363321799
+Epoch:  9
+Accuracy : 0.9192618223760092
+Finished fine tuning.
+Finished. Going to fine tune the model a bit more
+Epoch:  0
+Accuracy : 0.9434832756632064
+Epoch:  1
+Accuracy : 0.9302191464821222
+Epoch:  2
+Accuracy : 0.9331026528258363
+Epoch:  3
+Accuracy : 0.9140715109573241
+Epoch:  4
+Accuracy : 0.9290657439446367
+Epoch:  5
+Accuracy : 0.9371395617070357
+Epoch:  6
+Accuracy : 0.9232987312572087
+Epoch:  7
+Accuracy : 0.9405997693194925
+Epoch:  8
+Accuracy : 0.9261822376009228
+Epoch:  9
+Accuracy : 0.9163783160322952
+Epoch:  10
+Accuracy : 0.9273356401384083
+Epoch:  11
+Accuracy : 0.9256055363321799
+Epoch:  12
+Accuracy : 0.9313725490196079
+Epoch:  13
+Accuracy : 0.9134948096885813
+Epoch:  14
+Accuracy : 0.9342560553633218
+Finished fine tuning.
